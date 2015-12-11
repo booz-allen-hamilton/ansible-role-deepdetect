@@ -1,0 +1,14 @@
+---
+- name: Clone repo
+  git: repo=https://github.com/beniz/deepdetect.git
+       dest="{{ install_dir }}"
+
+- name: Create build directory
+  file:
+    path: "{{ install_dir }}/build"
+    state: directory
+
+- name: Compile
+  shell: cmake .. && make
+  args:
+    chdir: "{{ install_dir }}/build"

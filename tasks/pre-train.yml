@@ -1,0 +1,20 @@
+---
+- name: Download pre-trained model
+  command: scripts/download_model_binary.py models/bvlc_googlenet/
+  args:
+    chdir: "{{ install_dir }}/build/caffe_dd/src/caffe_dd"
+
+- name: Create repository
+  file:
+    path: "{{ install_dir }}/models/imgnet"
+    state: directory
+
+- name: Move pre-trained model to repository
+  command: mv build/caffe_dd/src/caffe_dd/models/bvlc_googlenet/bvlc_googlenet.caffemodel models/imgnet
+  args:
+    chdir: "{{ install_dir }}"
+
+- name: Add correspondence file
+  command: cp datasets/imagenet/corresp_ilsvrc12.txt models/imgnet/corresp.txt
+  args:
+    chdir: "{{ install_dir }}"
